@@ -4,9 +4,13 @@
 
 using namespace std;
 
-// TODO: Define Sensor struct
-// struct Sensor {
-// };
+// Define Sensor struct
+struct Sensor {
+    int id;
+    double temperature;
+    double voltage;
+    char status[20];  // fixed size char array for status
+};
 
 void print_sensor(int index, int id, double temperature, double voltage, const char* status) {
     cout << "Sensor[" << index << "]: "
@@ -30,17 +34,32 @@ int main(int argc, char* argv[]) {
 
     int num_sensors;
     input >> num_sensors;
+    input.ignore(); // skip newline after number
 
     const int MAX_SENSORS = 10;
+    if (num_sensors > MAX_SENSORS) {
+        cerr << "Too many sensors, max allowed is " << MAX_SENSORS << endl;
+        return 1;
+    }
 
-    // TODO: Create an array of Sensor
-    // Sensor sensors[MAX_SENSORS];
+    // Create array of Sensor
+    Sensor sensors[MAX_SENSORS];
 
-    // TODO: Read sensor data from input
-    // for (int i = 0; i < num_sensors; i++) {
-    // }
+    // Read sensor data from input
+    for (int i = 0; i < num_sensors; i++) {
+        input >> sensors[i].id;
+        input >> sensors[i].temperature;
+        input >> sensors[i].voltage;
+        input.ignore(); // skip newline before status line
+        input.getline(sensors[i].status, 20);
+    }
 
-    // TODO: Iterate using a pointer and print sensor data
+    // Iterate using a pointer and print sensor data
+    Sensor* ptr = sensors;
+    for (int i = 0; i < num_sensors; i++) {
+        print_sensor(i, ptr->id, ptr->temperature, ptr->voltage, ptr->status);
+        ++ptr;
+    }
 
     return 0;
 }

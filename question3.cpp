@@ -4,9 +4,11 @@
 
 using namespace std;
 
-// TODO: Define Point struct if not given
-// struct Point {
-// };
+// Define Point struct
+struct Point {
+    double x;
+    double y;
+};
 
 void print_point_rotation(double x_before, double y_before,
                           double theta, double x_after, double y_after) {
@@ -27,17 +29,27 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // TODO: Declare point, pivot, and angle variables
+    // Declare points and angle
+    Point p, pivot;
+    double theta;
 
+    // Read input: x, y, theta, px, py
+    input >> p.x >> p.y >> theta >> pivot.x >> pivot.y;
 
-    // TODO: Read input from file: x, y, theta, px, py
+    // Translate point relative to pivot
+    double translated_x = p.x - pivot.x;
+    double translated_y = p.y - pivot.y;
 
+    // Perform rotation
+    double rotated_x = translated_x * cos(theta) - translated_y * sin(theta);
+    double rotated_y = translated_x * sin(theta) + translated_y * cos(theta);
 
-    // TODO: Compute rotated coordinates around pivot
+    // Translate back
+    double final_x = rotated_x + pivot.x;
+    double final_y = rotated_y + pivot.y;
 
-
-    // TODO: Print rotated point
-
+    // Print result
+    print_point_rotation(p.x, p.y, theta, final_x, final_y);
 
     return 0;
 }
