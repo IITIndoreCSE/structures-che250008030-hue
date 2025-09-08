@@ -4,8 +4,14 @@
 
 using namespace std;
 
-// TODO: Write the Book struct here
-// struct Book { ... };
+// Define Book struct
+struct Book {
+    char title[100];
+    char author[100];
+    int year;
+    int pages;
+    char isbn[20];
+};
 
 void print_book(int index, const char* title, const char* author, int year, int pages, const char* isbn) {
     cout << "Book[" << index << "]: "
@@ -16,30 +22,38 @@ void print_book(int index, const char* title, const char* author, int year, int 
          << "isbn=" << isbn << "\n";
 }
 
-int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
-        return 1;
-    }
+int main() {
+    const char* filename = "books123.txt";
 
-    ifstream input(argv[1]);
+    // Try to open file
+    ifstream input(filename);
+
+    // Check if file opened successfully
     if (!input) {
-        cerr << "Error opening " << argv[1] << endl;
+        cerr << "Error opening file: " << filename << endl;
+        cerr << "Make sure the file '" << filename << "' exists in the current directory where you run this program." << endl;
         return 1;
+    } else {
+        cout << "File '" << filename << "' opened successfully.\n";
     }
 
     int num_books;
     input >> num_books;
-    input.ignore(); // skip newline
+    input.ignore(); // skip newline after number
 
-    // TODO: Create array of Book
-    // Book books[10];
+    Book books[100];
 
-    // TODO: Read books from input
-    // for (int i = 0; i < num_books; i++) { ... }
+    for (int i = 0; i < num_books; i++) {
+        input.getline(books[i].title, 100);
+        input.getline(books[i].author, 100);
+        input >> books[i].year >> books[i].pages;
+        input.ignore(); // skip newline after reading numbers
+        input.getline(books[i].isbn, 20);
+    }
 
-    // TODO: Print books using print_book
-    // for (int i = 0; i < num_books; i++) { ... }
+    for (int i = 0; i < num_books; i++) {
+        print_book(i, books[i].title, books[i].author, books[i].year, books[i].pages, books[i].isbn);
+    }
 
     return 0;
 }
